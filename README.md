@@ -1,3 +1,6 @@
-### Beyond the mask, I am The Light Phoenix.
+<div align="center">
+### 🪽| The Light Phoenix
+</div>
+
 
 <p align="center"><img src="https://raw.githubusercontent.com/TheLightPhoenix98/TheLightPhoenix98/b-assets/images/profile/banners/tlp1.png"></p>
