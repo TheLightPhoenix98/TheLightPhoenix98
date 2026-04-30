@@ -1,6 +1,6 @@
 <div align="center">
 
-## 🪽 ┃┃ The Light Phoenix
+## The Light Phoenix 🪽
 
 </div>
 
