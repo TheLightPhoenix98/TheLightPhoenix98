@@ -1,0 +1,56 @@
+name: Orphan Branch Creator
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        description: 'Enter branch name'
+        required: true
+        default: 'new-orphan-branch'
+      branch_type:
+        description: 'Select branch type'
+        type: choice
+        required: true
+        options:
+          - Clean (Empty Branch)
+          - Main-Copy (With Files)
+        default: 'Clean (Empty Branch)'
+
+permissions:
+  contents: write
+
+jobs:
+  orphan-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Process Branch Creation
+        run: |
+          BRANCH_NAME="${{ github.event.inputs.branch_name }}"
+          TYPE="${{ github.event.inputs.branch_type }}"
+          
+          echo "Creating $TYPE: $BRANCH_NAME"
+          
+          git checkout --orphan "$BRANCH_NAME"
+          
+          if [ "$TYPE" == "Clean (Empty Branch)" ]; then
+            echo "Cleaning all files..."
+            git rm -rf .
+            git commit --allow-empty -m "Initial empty orphan branch"
+          else
+            echo "Keeping files from main branch..."
+            git add .
+            git commit -m "Orphan branch with files from main"
+          fi
+          
+          git push origin "$BRANCH_NAME" --force
+          
